@@ -1,0 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package vn.edu.ptit.hcm.zoroBlogs.validator;
+
+import javax.validation.Payload;
+import javax.validation.Constraint;
+import java.lang.annotation.Documented;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Documented
+@Constraint(validatedBy = DisplayNameExistValidator.class)
+@Target({TYPE, FIELD, ANNOTATION_TYPE})
+@Retention(RUNTIME)
+public @interface DisplayNameExist {
+
+    String message() default "Tên hiển thị đã tồn tại";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+}

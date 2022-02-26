@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+</html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="/static/css/login-style.css" />
+  <title>Sign in & Sign up Form</title>
+</head>
+
+<body>
+  <div class="container" th:classappend="${#request.getParameter('success') == 'false'} ? 'sign-up-mode'">
+    <div class="forms-container">
+      <div class="signin-signup">
+        <form th:action="@{/welcome/login}" th:object="${account}" method="post" class="sign-in-form">
+          <h2 class="title">Đăng Nhập</h2>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input name="email" type="email" placeholder="Email" th:field="*{email}"/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input name="password" type="password" placeholder="Mật khẩu"/>
+          </div>
+          <div th:classappend="${#request.getParameter('error') == 'true'} ? 'validate-error'">
+            <span th:if="${#request.getParameter('error') == 'true'}">Tài khoản hoặc mật khẩu không chính xác</span>
+          </div>
+          <div class="remember-me-toggle">
+            <div class="cbx">
+              <input id="cbx" type="checkbox" name="remember-me" />
+              <label for="cbx"></label>
+              <svg width="15" height="14" viewbox="0 0 15 14" fill="none">
+                <path d="M2 8.36364L6.23077 12L13 2"></path>
+              </svg>
+            </div>
+            <span>Lưu thông tin đăng nhập</span>
+            <!-- Gooey-->
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+              <defs>
+                <filter id="goo">
+                  <fegaussianblur in="SourceGraphic" stddeviation="4" result="blur"></fegaussianblur>
+                  <fecolormatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
+                    result="goo"></fecolormatrix>
+                  <feblend in="SourceGraphic" in2="goo"></feblend>
+                </filter>
+              </defs>
+            </svg>
+          </div>
+          <input type="submit" value="Đăng Nhập" class="btn solid" />
+        </form>
+        <form th:action="@{/welcome/register/processing}" th:object="${user}" method="POST" class="sign-up-form">
+          <h2 class="title">Đăng Ký</h2>
+          <div class="input-field">
+            <i class="fas fa-envelope"></i>
+            <input th:field="*{email}" type="email" placeholder="Email" />
+          </div>
+          <div th:classappend="${#fields.hasErrors('email')}? 'validate-error'">
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            <!-- <span>hello</span> -->
+          </div>
+
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input th:field="*{password}" type="password" placeholder="Mật khẩu"/>
+          </div>
+          <div th:classappend="${#fields.hasErrors('password')}? 'validate-error'">
+            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+          </div>
+
+          <div class="input-field">
+            <i class="fas fa-check-double">
+            </i> <input th:field="*{confirmPassword}" type="password" placeholder="Nhập lại mật khẩu" />
+          </div>
+          <div th:classappend="${#fields.hasErrors('confirmPassword')}? 'validate-error'">
+            <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
+          </div>
+
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input th:field="*{displayName}" type="text" placeholder="Tên hiển thị" />
+          </div>
+          <div th:classappend="${#fields.hasErrors('displayName')}? 'validate-error'">
+            <span th:if="${#fields.hasErrors('displayName')}" th:errors="*{displayName}"></span>
+          </div>
+
+          <div class="input-field">
+            <i class="fas fa-calendar-day"></i>
+            <div class="wrapper">
+              <label for="datepicker">
+                <input th:field="*{dateOfBirth}" type="text" id="datepicker" placeholder="Ngày sinh" autocomplete="off">
+              </label>
+            </div>
+          </div>
+          <div th:classappend="${#fields.hasErrors('dateOfBirth')}? 'validate-error'">
+            <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
+          </div>
+
+          <div class="gender-field">
+            <i class="fas fa-venus-mars"></i>
+            <span>Giới tính</span>
+            <div class="custom_radio">
+              <input th:field="*{gender}" th:value="0" type="radio" id="featured-1" checked><label
+                for="featured-1">Nam</label>
+              <input th:field="*{gender}" th:value="1" type="radio" id="featured-2"><label for="featured-2">Nữ</label>
+            </div>
+          </div>
+          <div th:classappend="${#fields.hasErrors('gender')}? 'validate-error'">
+            <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
+          </div>
+
+          <input type="submit" class="btn" name="sign-up" value="Đăng Ký" />
+        </form>
+      </div>
+    </div>
+
+    <div class="panels-container">
+      <div class="panel left-panel">
+        <div class="content">
+          <h3>Đăng ký tài khoản mới</h3>
+          <p>
+            Cùng tham gia vào cộng đồng người Mỹ nói tiếng Việt lớn nhất hành tinh
+          </p>
+          <button class="btn transparent" name="sign-up-mode" id="sign-up-btn">
+            Đăng Ký Ngay
+          </button>
+        </div>
+        <img src="/static/img/login.svg" class="image" alt="" />
+      </div>
+      <div class="panel right-panel">
+        <div class="content">
+          <h3>Bạn đã có tài khoản?</h3>
+          <p>
+            Hãy đăng nhập và trãi nghiệm nhứng điều thú vị cùng zoro nào!
+          </p>
+          <button class="btn transparent" name="sign-in-mode" id="sign-in-btn">
+            Đăng Nhập Ngay
+          </button>
+        </div>
+        <img src="/static/img/register.svg" class="image" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/login-script.js"></script>
+</body>
+
+</html>

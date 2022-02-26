@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zoroBlogs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel=" stylesheet" href="/static/css/slick.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
+    <link rel="stylesheet" href="/static/css/index-style.css">
+    <script src="https://cdn.tiny.cloud/1/pvfujn6b1h0csn5b04cirnc19muf79riduh0j20blupgqnhp/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+</head>
+
+<body id="top">
+    <form th:object="${post}" method="post" enctype="multipart/form-data">
+        <div class="site-wrapper">
+            <div class="main-overlay"></div>
+            <header class="header-default">
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container-xl">
+                        <!-- logo  -->
+                        <a th:href="@{/home?size=5&page=1}" class="navbar-brand">
+                            <h1>zoroBlogs</h1>
+                        </a>
+
+                        <!-- right side of header  -->
+                        <div class="header-right">
+                            <div class="header-buttons">
+                                <!-- <button class="new icon-button">
+                                <i class="fas fa-pen"></i>
+                            </button> -->
+                                <ul class="navbar-nav me-auto">
+                                    <li class="nav-item dropdown active">
+                                        <span class="nav-link dropdown-toggle">Blogs của tôi</span>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a th:href="@{/editor/create-new-post}" class="dropdown-item">Bài viết
+                                                    mới</a>
+                                            </li>
+                                            <li>
+                                                <a th:href="@{/library?size=5&page=1}" class="dropdown-item">Quản lí
+                                                    Blogs</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+
+
+                                <button th:if="${post.id == null}" type="submit" formmethod="post"
+                                    th:formaction="'/editor/create-new-post'" class="icon-button">
+                                    <i class=" fas fa-save"></i>
+                                </button>
+                                <button th:unless="${post.id == null}" type=" submit" formmethod="post"
+                                    th:formaction="'/editor/update-post?post_id='+${post.id}" class="icon-button">
+                                    <i class="fas fa-save"></i>
+                                </button>
+                                <button th:unless="${post.id == null}" type="submit" formmethod="post"
+                                    th:formaction="'/editor/delete-post?post_id='+${post.id}" class="icon-button">
+                                    <i class="fas fa-trash"></i> </button>
+                                <button th:unless="${post.id == null}" type="submit" formmethod="post"
+                                    th:formaction="'/editor/hide-post?post_id='+${post.id}" class="icon-button">
+                                    <i class="fas fa-eye-slash"></i></button>
+                                <!-- <i class="fas fa-eye"></i> -->
+
+
+                                <!-- <button class="search icon-button">
+                                    <i class="icon-magnifier"></i>
+                                </button> -->
+
+                                <!-- <button class="burger-menu icon-button">
+                                    <span class="burger-icon"></span>
+                                </button> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+
+            </header>
+
+
+
+            <!-- section starts  -->
+
+            <section id="hero">
+                <div class="container-xl">
+                    <div class="row gy-4">
+                        <div class="col-lg-8">
+                            <div class="widget rounded">
+
+                                <!-- tiêu đề của bài viết -->
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Tiêu đề của bài viết</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <div class="mb-2">
+                                        <input type="text" th:field="*{title}" class="form-control w-100"
+                                            placeholder="Tiêu đề...">
+                                    </div>
+                                </div>
+
+
+                                <div class="spacer" data-height="20"></div>
+
+                                <!-- ảnh thumbnail cho bài viết -->
+                                <div class="container">
+                                    <div class="wrapper" th:classappend="${post.thumbnailName != null}? 'active'">
+                                        <div class="image">
+                                            <img th:unless="${post.thumbnailName == null}"
+                                                th:src="@{'/static/img/upload/' + ${post.thumbnailName}}" alt="">
+                                            <img th:if="${post.thumbnailName == null}"
+                                                th:src="@{'/static/img/register.svg'}" alt="">
+                                        </div>
+                                        <div class="content">
+
+                                        </div>
+                                        <div id="cancel-btn">
+                                            <i class="fas fa-times" th:onclick="delete_img()"></i>
+                                        </div>
+                                        <div class="file-name" th:text="${post.thumbnailName}">
+                                            File name here
+                                        </div>
+                                    </div>
+                                    <div class="fileUpload">
+                                        <input th:field="*{thumbnail}" type="file" class="upload" accept="image/*"
+                                            multiple="multiple" id="default-btn" />
+                                        <span>Tải ảnh lên...</span>
+                                    </div>
+                                </div>
+                                <script>
+                                    const wrapper = document.querySelector(".wrapper");
+                                    const fileName = document.querySelector(".file-name");
+                                    const defaultBtn = document.querySelector("#default-btn");
+                                    const customBtn = document.querySelector("#custom-btn");
+                                    const cancelBtn = document.querySelector("#cancel-btn i");
+                                    const img = document.querySelector("img");
+                                    let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+                                    function delete_img() {
+                                        img.src = "/static/img/register.svg";
+                                        wrapper.classList.remove("active");
+                                    };
+                                    defaultBtn.addEventListener("change", function () {
+                                        const file = this.files[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = function () {
+                                                const result = reader.result;
+                                                img.src = result;
+                                                wrapper.classList.add("active");
+                                            }
+                                            cancelBtn.addEventListener("click", delete_img());
+                                            reader.readAsDataURL(file);
+                                        }
+                                        if (this.value) {
+                                            let valueStore = this.value.match(regExp);
+                                            fileName.textContent = valueStore;
+                                        }
+
+                                    });
+
+                                </script>
+                                <div class="spacer" data-height="20"></div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+
+
+                            <!-- list chủ đề -->
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Chủ để cho bài viết</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <div class="mb-2">
+
+                                        <select th:field="*{category}" class="selectpicker bordered">
+                                            <option th:each="category : ${listCategory}" th:value="${category.id}"
+                                                th:utext="${category.title}"></option>
+                                            <!-- <option>Mustard</option>
+                                            <option>Ketchup</option>
+                                            <option>Relish</option> -->
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- thẻ cho bài viết -->
+                            <div class="post-tabs rounded bordered">
+                                <h5>Gắn thẻ cho bài viết
+                                </h5>
+                                <input th:field="*{postTags}" type="text" id="tag-input1">
+                                <script th:inline="javascript" th:unless="${post.postTags == null}"
+                                    th:src="@{/static/js/tag-input.js}" th:post-tags="${post.postTags}"
+                                    th:onload="tagInput1.addData(JSON.parse(this.getAttribute('post-tags')));">
+                                    </script>
+                            </div>
+                            <script src="/static/js/tag-input.js">
+
+                            </script>
+                            <div class="spacer" data-height="20"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- nội dung bài viết  -->
+            <section class="main-content">
+                <div class="container-xl">
+                    <textarea th:field="*{contents}" placeholder="Hãy viết lên những suy nghĩ của bạn...">
+                  </textarea>
+                    <script>
+                        tinymce.init({
+                            selector: '#contents',
+                            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                            toolbar_mode: 'floating',
+                            height: "600",
+                        });
+                    </script>
+            </section>
+
+            <footer>
+                <div class="container-xl">
+                    <div class="footer-inner">
+                        <div class="row d-flex align-items-center gy-4">
+                            <div class="col-md-6">
+                                <span class="copyright">&copy; zoroBlogs</span>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#top" id="return-to-top" class="float-md-end">
+                                    <i class="icon-arrow-up"></i>
+                                    Về đầu trang
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+
+
+
+        </div>
+
+
+        <!-- canvas menu  -->
+        <div class="canvas-menu d-flex align-items-end flex-column">
+            <button class="btn-close" aria-label="Close" type="button"></button>
+            <div class="logo">
+                <h2>zoroBlgos</h2>
+            </div>
+            <nav>
+                <ul class="vertical-menu">
+                    <li class="active">
+                        <a href="index.html">Home</a>
+                        <ul class="submenu">
+                            <li><a href="#">Fashion</a></li>
+                            <li><a href="#">Movies</a></li>
+                            <li><a href="#">Electronic</a></li>
+                            <li><a href="#">Cricket</a></li>
+                            <li><a href="#">Technology</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Latest</a></li>
+                    <li><a href="#">Trending</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                <button class="btn btn-default btn-full btn-logout" type="button">Đăng xuất</button>
+            </nav>
+        </div>
+
+
+        <!-- search pop up  -->
+        <div class="search-popup">
+            <button class="btn-close" aria-label="Close" type="button"></button>
+
+            <div class="search-content">
+                <div class="text-center">
+                    <h3 class="mb-4 mt-0">Press ESC to close</h3>
+                </div>
+
+                <form action="" class="d-flex search-form">
+                    <input type="search" placeholder="Search and press enter ..." aria-label="Search"
+                        class="form-control me-2">
+                    <button class="btn btn-default btn-lg" type="submit">
+                        <i class="icon-magnifier"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <!-- javascripts  -->
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/popper.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/slick.min.js"></script>
+        <script src="/static/js/jquery.sticky-sidebar.min.js"></script>
+        <script src="/static/js/main.js"></script>
+    </form>
+
+</body>
+
+</html>

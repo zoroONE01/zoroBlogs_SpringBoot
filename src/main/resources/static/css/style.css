@@ -1,0 +1,323 @@
+:root {
+  --primary-text: #444;
+  --secondary-text: #bbb;
+  --background: #f6f8fa;
+  --card-background: #fff;
+  --hover-background: #f5f5f5;
+}
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.6rem;
+  color: var(--secondary-text);
+  box-sizing: border-box;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  display: inline-block;
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
+input {
+  line-height: normal;
+}
+img {
+  display: inline-block;
+}
+.container {
+  position: relative;
+  background-color: var(--background);
+  width: 100%;
+  height: fit-content;
+  min-height: 100vh;
+  min-width: 107rem;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 6rem;
+  height: 100%;
+  border-right: 0.2rem solid var(--background);
+  background-color: var(--card-background);
+  overflow: hidden;
+  transition: width 0.3s ease-in-out;
+  transition-delay: 0.1s;
+}
+.sidebar:hover {
+  width: 20rem;
+}
+.sidebar__logo,
+.sidebar__menu,
+.sidebar__action {
+  width: 17rem;
+  position: absolute;
+}
+.sidebar__menu img {
+  width: 3rem;
+  margin-right: 1.4rem;
+}
+.sidebar__logo,
+.sidebar__link {
+  display: flex;
+  align-items: center;
+}
+.sidebar__title {
+  text-transform: capitalize;
+  color: var(--secondary-text);
+}
+.sidebar__item {
+  padding: 1rem 0.5rem;
+  margin: 1.5rem 0;
+  border-radius: 3px;
+  transition: all 0.1s ease-in-out;
+}
+.sidebar__link.active .sidebar__item,
+.sidebar__item:hover {
+  background-color: var(--background);
+}
+.sidebar__item:hover .sidebar__title,
+.head__auth:hover,
+.sidebar__title:hover {
+  color: var(--primary-text);
+}
+.sidebar__item:hover img,
+.head__auth:hover img,
+.head__noti:hover img {
+  filter: invert(25%) sepia(10%) saturate(3%) hue-rotate(350deg) brightness(88%)
+    contrast(84%);
+}
+.sidebar__logo {
+  top: 1rem;
+  left: 1rem;
+}
+.sidebar__menu {
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+.sidebar__action {
+  bottom: 1rem;
+  left: 1rem;
+}
+.sidebar__title--text-logo {
+  position: relative;
+  top: 0.3rem;
+  margin-left: 1.4rem;
+}
+/* .content {
+  dis
+  width: 100%;
+  height: 100%;
+  background-color: var(--background);
+} */
+
+.head {
+  position: fixed;
+  left: 6rem;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 6rem;
+  border-bottom: 0.2rem solid var(--background);
+  background-color: var(--card-background);
+}
+.head__searchbar {
+  display: flex;
+  width: fit-content;
+  position: absolute;
+  top: 50%;
+  left: 3rem;
+  transform: translateY(-50%);
+}
+.head__search-input::placeholder {
+  opacity: 0.5;
+}
+
+.head__search-input {
+  margin-left: 1rem;
+  width: 100%;
+  border: none;
+}
+.head__search-input:focus {
+  outline: none;
+}
+.head__action {
+  display: flex;
+  width: fit-content;
+  position: absolute;
+  top: 50%;
+  right: 8rem;
+  transform: translateY(-50%);
+}
+.head__auth {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 13rem;
+  margin-left: 2rem;
+}
+.head__noti {
+  position: relative;
+}
+.head__auth::before {
+  content: "";
+  width: 0.2rem;
+  height: 100%;
+  background-color: var(--hover-background);
+  position: relative;
+  top: 0;
+  left: -1rem;
+}
+.head__auth::after {
+  content: "";
+  width: 100%;
+  height: 0.5rem;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+.head__noti::after {
+  content: "";
+  width: 10rem;
+  height: 0.5rem;
+  position: absolute;
+  top: 100%;
+  right: -1rem;
+  /* background-color: red; */
+  /* opacity: 0; */
+}
+.head__auth-dropdown {
+  position: absolute;
+  top: 130%;
+  right: 0;
+  width: inherit;
+  height: fit-content;
+  background-color: var(--card-background);
+  text-align: right;
+  border-radius: 0.2rem;
+  box-shadow: 0 2px 4px 0 rgba(66, 51, 51, 0.2);
+  /* border: 1rem solid rgba(255,255,255,.5); */
+  visibility: hidden;
+}
+.head__noti-dropdown {
+  position: absolute;
+  top: 130%;
+  right: -1rem;
+  /* transform: translateX(); */
+  width: 40rem;
+  height: 30rem;
+  background-color: var(--card-background);
+  text-align: left;
+  border-radius: 0.2rem;
+  box-shadow: 0 2px 4px 0 rgba(66, 51, 51, 0.2);
+
+  /* border: 0.2rem solid var(--background); */
+  visibility: hidden;
+}
+.head__auth-item {
+  margin: 1rem;
+  padding: 0.5rem;
+}
+.head__auth:hover .head__auth-dropdown,
+.head__noti:hover .head__noti-dropdown {
+  visibility: visible;
+}
+
+.workspace {
+  position: relative;
+  left: 50%;
+  width: 101rem;
+  height: inherit;
+  transform: translate(-50%);
+  padding: 8rem 0 2rem 0;
+  margin-left: 3rem;
+  background-color: var(--background);
+  /* background-color: red; */
+}
+
+.workspace-container {
+  width: 100%;
+  height: fit-content;
+  background-color: var(--card-background);
+  padding: 2rem;
+  line-height: 1.6rem;
+}
+
+.workspace-title {
+  font-weight: 700;
+  font-size: 140%;
+  color: var(--primary-text);
+}
+.table-navbar {
+  position: relative;
+  width: 41rem;
+  height: 3.5rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+  margin: 2rem 0 1rem 0;
+  z-index: 4;
+}
+.table-navbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 97rem;
+  height: 2px;
+  background-color: var(--secondary-text);
+  z-index: -4;
+}
+.table-item {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+
+.tablinks.active,
+.table-item:hover .tablinks {
+  height: 3.5rem;
+  font-size: 105%;
+  width: 9.75rem;
+  border-bottom: none;
+}
+
+.tablinks {
+  background-color: var(--card-background);
+  height: 3rem;
+  width: 9.5rem;
+  font-size: 100%;
+  color: var(--secondary-text);
+  border: 2px solid var(--secondary-text);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+/* .button.active .tablinks {
+  height: 3.5rem;
+  font-size: 105%;
+  width: 9.75rem;
+  border-bottom: none;
+} */
+
+/* .tabcontent.active  {
+  visibility: hidden;
+} */
+
+/* .table-navbar button.active {
+  display: block;
+} */
